@@ -6,8 +6,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.fragment.findNavController
 import com.chinh.news.R
+import com.chinh.news.databinding.NewsDetailFragmentBinding
+import com.chinh.news.repository.model.NewsModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class NewsDetailFragment : Fragment() {
 
     companion object {
@@ -15,18 +21,22 @@ class NewsDetailFragment : Fragment() {
     }
 
     private lateinit var viewModel: NewsDetailViewModel
+    private lateinit var binding: NewsDetailFragmentBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.news_detail_fragment, container, false)
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+        binding = NewsDetailFragmentBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(this).get(NewsDetailViewModel::class.java)
-        // TODO: Use the ViewModel
+        return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        (arguments?.getSerializable("item") as? NewsModel)?.apply {
+            binding.item = this
+            (activity as? AppCompatActivity)?.supportActionBar?.title = title
+        }
+    }
 }

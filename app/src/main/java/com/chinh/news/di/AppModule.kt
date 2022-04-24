@@ -1,18 +1,22 @@
 package com.chinh.news.di
 
 import android.annotation.SuppressLint
+import android.content.Context
 import com.chinh.news.BuildConfig
 import com.chinh.news.data.api.ApiService
+import com.chinh.news.data.db.AppDatabase
+import com.chinh.news.data.db.NewsDAO
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.security.cert.X509Certificate
 import java.util.concurrent.TimeUnit
@@ -23,19 +27,24 @@ import javax.net.ssl.X509TrustManager
 
 @Module
 @InstallIn(SingletonComponent::class)
-object NetworkModule {
+object AppModule {
     @Provides
     fun provideApiService(retrofit: Retrofit): ApiService {
         return retrofit.create(ApiService::class.java)
     }
 
     @Provides
+    fun provideNewsDao(@ApplicationContext context:Context): NewsDAO {
+        return AppDatabase.getDatabase(context).newsDao
+    }
+
+    @Provides
     fun provideRetrofit(client: OkHttpClient, gson: Gson): Retrofit {
         return Retrofit.Builder()
             .client(client)
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .addCallAdapterFactory(CoroutineCallAdapterFactory())
             .addConverterFactory(GsonConverterFactory.create(gson))
-            .baseUrl("https://newsapi.org/v2")
+            .baseUrl("https://newsapi.org/v2/")
             .build()
     }
 

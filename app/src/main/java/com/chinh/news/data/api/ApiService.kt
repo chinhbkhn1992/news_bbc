@@ -1,12 +1,16 @@
 package com.chinh.news.data.api
 
-import com.chinh.news.data.model.NewsEntity
 import com.chinh.news.data.model.NewsResponse
-import io.reactivex.Completable
 import retrofit2.http.GET
+import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface ApiService{
-    @GET("everything?q=tesla&from=2022-02-28&sortBy=publishedAt&apiKey=ee19aa2e5ce849f191263047734a6f1e")
-    fun getNews(
-    ): List<NewsEntity>
+    @GET("everything")
+    suspend fun getNews(
+        @Query("from")from:String,
+        @Query("q")q:String = "tesla",
+        @Query("sortBy")sortBy:String = "publishedAt",
+        @Query("apiKey")apiKey:String = "ee19aa2e5ce849f191263047734a6f1e",
+    ): NewsResponse
 }

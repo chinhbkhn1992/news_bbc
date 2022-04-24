@@ -1,13 +1,9 @@
 package com.chinh.news.repository
 
-import com.chinh.news.data.api.ApiService
-import com.chinh.news.data.model.NewsRealmModel
+import com.chinh.news.repository.model.ApiResult
 import com.chinh.news.repository.model.NewsModel
-import javax.inject.Inject
+import kotlinx.coroutines.flow.Flow
 
-class NewsRepository @Inject constructor(val api:ApiService) {
-    fun getNews():List<NewsModel> {
-        val news = api.getNews()
-        return
-    }
+interface NewsRepository {
+     fun getNews(): Flow<ApiResult<List<NewsModel>>>
 }

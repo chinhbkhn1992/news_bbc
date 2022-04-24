@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="item"
             type="com.chinh.news.repository.model.NewsModel" />
@@ -10,46 +12,61 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:padding="20dp"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:padding="20dp">
+
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/news_icon"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            image_url="@{item.urlToImage}"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
-        <TextView
-            android:layout_width="0dp"
-            android:layout_marginStart="20dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toEndOf="@id/news_icon"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:id="@+id/news_title"
-            android:text="@{item.title}"
-            android:maxLines="1"
-            android:ellipsize="end"/>
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="@id/news_title"
-            app:layout_constraintEnd_toEndOf="@id/news_title"
-            app:layout_constraintTop_toBottomOf="@id/news_title"
-            android:id="@+id/news_description"
-            android:text="@{item.description}"
-            android:maxLines="3"
-            android:ellipsize="end"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/news_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="@id/news_title"
-            app:layout_constraintEnd_toEndOf="@id/news_title"
-            app:layout_constraintTop_toBottomOf="@id/news_description"
-            android:id="@+id/news_publish_time"
-            android:text="@{item.publishedAt}"
+            android:layout_marginStart="20dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@{item.title}"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/news_icon"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Title Title" />
+
+        <TextView
+            android:id="@+id/news_description"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:ellipsize="end"
             android:maxLines="3"
-            android:ellipsize="end"/>
+            android:text="@{item.description}"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@id/news_title"
+            app:layout_constraintStart_toStartOf="@id/news_title"
+            app:layout_constraintTop_toBottomOf="@id/news_title"
+            tools:text="description description" />
+
+        <TextView
+            android:id="@+id/news_publish_time"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:ellipsize="end"
+            android:maxLines="3"
+            android:text="@{item.publishedAt}"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="@id/news_title"
+            app:layout_constraintStart_toStartOf="@id/news_title"
+            app:layout_constraintTop_toBottomOf="@id/news_description"
+            tools:text="2021-11-11" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
